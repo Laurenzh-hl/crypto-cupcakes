@@ -33,6 +33,7 @@ const config = {
   clientID: AUTH0_CLIENT_ID,
   issuerBaseURL: AUTH0_BASE_URL,
 };
+app.use(auth(config));
 
 app.get("/", (req, res) => {
   res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
