@@ -36,7 +36,27 @@ const config = {
 app.use(auth(config));
 
 app.get("/", (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
+  const {
+    sid,
+    given_name,
+    family_name,
+    nickname,
+    name,
+    picture,
+    updated_at,
+    email,
+    email_verified,
+    sub,
+  } = req.oidc.user;
+  res.set("Content-Type", "text/html");
+  res.send(
+    Buffer.from(
+      `<h1>Cupcake Crazy Home page</h1>
+       <h2>Welcome, ${name}</h2>
+       <p>Username: ${email}</p>
+       <img src="${picture}" alt="some picture">`
+    )
+  );
 });
 
 app.get("/cupcakes", async (req, res, next) => {
